@@ -24,8 +24,8 @@ public class Tree {
 		Tree tr = new Tree();
 		/*tr.PostOrder(a);
 		System.out.println("===========");*/
-		tr.levelOrder(a);
-		
+		//tr.levelOrder(a);
+		System.out.println(tr.maxValueNotRecursive(a));
 		/*Stack s = new Stack();
 		s.push(2);
 		s.push(1);
@@ -136,5 +136,41 @@ public class Tree {
 	    		q.add(temp.getRight());
 	    	}
 	    }
+	}
+	
+	//최대값 재귀
+	int maxValueRecursive(BinaryTreeNode root){
+		int rootVal,left,right,max = 0;
+		if(root != null){
+			rootVal = root.getData();
+			left = maxValueRecursive(root.getLeft());
+			right = maxValueRecursive(root.getRight());
+			max = left > right ? left:right;
+			if(rootVal > max){
+				max = rootVal;
+			}
+		}
+		return max;
+	}
+	
+	//최대값 재귀없이
+	int maxValueNotRecursive(BinaryTreeNode root){
+		int rootVal,left,right,max = 0;
+		BinaryTreeNode temp;
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+	    
+	    q.add(root);
+	    while(!q.isEmpty()){
+	    	temp = q.poll();
+	    	max = max > temp.getData() ? max:temp.getData();
+	    	if(temp.getLeft() != null){
+	    		q.add(temp.getLeft());
+	    	}
+	    	
+	    	if(temp.getRight() != null){
+	    		q.add(temp.getRight());
+	    	}
+	    }
+		return max;
 	}
 }
