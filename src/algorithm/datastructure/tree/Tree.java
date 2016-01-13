@@ -1,5 +1,6 @@
 package algorithm.datastructure.tree;
 
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
@@ -119,22 +120,20 @@ public class Tree {
 	
 	void levelOrder(BinaryTreeNode root){
 		BinaryTreeNode temp;
-	    Queue<BinaryTreeNode> q = new PriorityQueue<BinaryTreeNode>();
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
 	    if(root == null){
 	    	return;
 	    }
-	    
 	    q.add(root);
-	    
 	    while(!q.isEmpty()){
 	    	temp = q.poll();
 	    	System.out.println(temp.getData());
 	    	if(temp.getLeft() != null){
-	    		q.offer(temp.getLeft());
+	    		q.add(temp.getLeft());
 	    	}
 	    	
 	    	if(temp.getRight() != null){
-	    		q.offer(temp.getRight());
+	    		q.add(temp.getRight());
 	    	}
 	    }
 	}
