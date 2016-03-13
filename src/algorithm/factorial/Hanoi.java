@@ -3,7 +3,7 @@ package algorithm.factorial;
 public class Hanoi {
 
 	public static void main(String[] args) {
-		TowersOfHanoi(2,'A','B','C');
+		TowersOfHanoi(3,'A','C','B');
 	}
 	
 	public static void TowersOfHanoi(int n, char frompeg, char topeg, char auxpeg){
@@ -13,9 +13,9 @@ public class Hanoi {
 		}
 		
 		TowersOfHanoi(n-1, frompeg, auxpeg, topeg);
-		System.out.println("Move disk from peg "+ frompeg + " to peg " + topeg);
+		System.out.println("Move disk "+n+" from peg "+ frompeg + " to peg " + topeg);
 	
-		TowersOfHanoi(n -1, auxpeg, topeg, frompeg);
+		TowersOfHanoi(n-1, auxpeg, topeg, frompeg);
 	}
-
+	
 }
