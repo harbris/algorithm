@@ -22,14 +22,9 @@ public class Tree {
 		c.setRight(g);
 		
 		Tree tr = new Tree();
-		/*tr.PostOrder(a);
-		System.out.println("===========");*/
-		//tr.levelOrder(a);
-		System.out.println(tr.maxValueNotRecursive(a));
-		/*Stack s = new Stack();
-		s.push(2);
-		s.push(1);
-		System.out.println(s.firstElement());*/
+		
+		tr.deleteTreeNotRecursive(a,3);
+		tr.levelOrder(a);
 	}
 	
 	void PreOrder(BinaryTreeNode root){
@@ -128,10 +123,10 @@ public class Tree {
 	    while(!q.isEmpty()){
 	    	temp = q.poll();
 	    	System.out.println(temp.getData());
+	    	
 	    	if(temp.getLeft() != null){
 	    		q.add(temp.getLeft());
 	    	}
-	    	
 	    	if(temp.getRight() != null){
 	    		q.add(temp.getRight());
 	    	}
@@ -155,7 +150,7 @@ public class Tree {
 	
 	//최대값 재귀없이
 	int maxValueNotRecursive(BinaryTreeNode root){
-		int rootVal,left,right,max = 0;
+		int max = 0;
 		BinaryTreeNode temp;
 	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
 	    
@@ -172,5 +167,130 @@ public class Tree {
 	    	}
 	    }
 		return max;
+	}
+	
+	//이진 트리 안의 항목을 검색
+	Boolean findValueRecursive(BinaryTreeNode root, int data){
+		Boolean temp;
+		if(root == null) return false;
+		else{
+			if(data == root.getData()) return true;
+			else{
+				temp = findValueRecursive(root.getLeft(), data);
+				if(temp == true) return temp;
+				else return(findValueRecursive(root.getRight(), data));
+			}
+		}
+	}
+	
+	//이진 트리 안의 항목을 검색 재귀사용 안함
+	Boolean findValueNotRecursive(BinaryTreeNode root, int data){
+		BinaryTreeNode temp;
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+	    if(root == null){
+	    	return false;
+	    }
+	    q.add(root);
+	    while(!q.isEmpty()){
+	    	temp = q.poll();
+	    	if(temp.getData() == data){
+	    		return true;
+	    	}
+	    	if(temp.getLeft() != null){
+	    		q.add(temp.getLeft());
+	    	}
+	    	if(temp.getRight() != null){
+	    		q.add(temp.getRight());
+	    	}
+	    }
+	    
+	    return false;
+	}
+	
+	void printReverseRecursive(BinaryTreeNode root){
+		BinaryTreeNode temp;
+		Stack<Integer> st = new Stack<Integer>();
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+	    
+	    q.add(root);
+	    while(!q.isEmpty()){
+	    	temp = q.poll();
+	    	st.add(temp.getData());
+	    	if(temp.getRight() != null){
+	    		q.add(temp.getRight());
+	    	}
+	    	if(temp.getLeft() != null){
+	    		q.add(temp.getLeft());
+	    	}
+	    }
+	    
+	    int size = st.size();
+		for(int i = 0 ; i < size ; i++){
+			System.out.println((st.pop()));
+		}
+	}
+	
+	
+	//이진트리 높이 
+	int heightOfBinaryTreeRecursive(BinaryTreeNode root){
+		int rightHeight, leftHeight;
+		if(root == null){
+			return 0;
+		}else{
+			leftHeight = heightOfBinaryTreeRecursive(root.getLeft());
+			rightHeight = heightOfBinaryTreeRecursive(root.getRight());
+			if(leftHeight > rightHeight){
+				return leftHeight + 1;
+			}else{
+				return rightHeight + 1;
+			}
+		}
+	}
+	
+	int heightOfBinaryTreeNotRecursive(BinaryTreeNode root){
+		BinaryTreeNode temp;
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+	    int rightHeight=1, leftHeight = 1;
+	    
+	    q.add(root);
+	    while(!q.isEmpty()){
+	    	temp = q.poll();
+	    	if(temp.getRight() != null){
+	    		q.add(temp.getRight());
+	    		rightHeight += 1;
+	    	}
+	    	if(temp.getLeft() != null){
+	    		q.add(temp.getLeft());
+	    		leftHeight += 1;
+	    	}
+	    }
+	    
+	    return (leftHeight > rightHeight ? leftHeight:rightHeight);
+	}
+	
+	//이진 트리 안의 항목을 검색
+	void deleteTreeNotRecursive(BinaryTreeNode root, int data){
+		BinaryTreeNode temp= null, changeTemp= null, lastParentTemp = null;
+	    Queue<BinaryTreeNode> q = new LinkedList<BinaryTreeNode>();
+	    
+	    q.add(root);
+	    while(!q.isEmpty()){
+	    	temp = q.poll();
+	    	if(data == temp.getData()){
+	    		changeTemp = temp;
+	    	}
+	    	if(temp.getLeft() != null){
+	    		lastParentTemp = temp;
+	    		q.add(temp.getLeft());
+	    	}
+	    	if(temp.getRight() != null){
+	    		lastParentTemp = temp;
+	    		q.add(temp.getRight());
+	    	}
+	    	
+	    }
+	    changeTemp.setData(temp.getData());
+	    if(lastParentTemp.getRight() != null){lastParentTemp.setRight(null);}
+	    else{lastParentTemp.setLeft(null);}
 	}
 }
